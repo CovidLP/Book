@@ -112,7 +112,7 @@ colnames(mu_final) <- names_mu
 data_base$pastMu <- mu_final
 
 ##### Listing 15.15: it generates Figure 15.11 ##### 
-plots <- plot(data_base,term = "long", color = FALSE)
+plots <- plot(data_base,term = "long")
 plots$long
-plots <- plot(data_base,term = "long", summary = FALSE, color = FALSE)
+plots <- plot(data_base,term = "long", summary = FALSE)
 plots$long
