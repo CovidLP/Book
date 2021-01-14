@@ -26,7 +26,6 @@ set.seed(123456789)
 ###-----------------------------
 ### Setting directories
 data_directory<- "Part4/Chapter9/data/"
-results_directory<- "Part4/Chapter9/results/"
 ###-----------------------------
 
 ###-----------------------------
