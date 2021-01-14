@@ -99,14 +99,23 @@ ggplot(data = df, linetype = linetype_plot) +
   geom_line(mapping = aes(x = date, y = `05/Oct/2020`, colour = "05/Oct/2020", linetype = "05/Oct/2020"), size = size_line_plot) + 
   geom_line(mapping = aes(x = date, y = `28/Oct/2020`, colour = "28/Oct/2020", linetype = "28/Oct/2020"), size = size_line_plot) + 
   
+<<<<<<< HEAD
   scale_color_manual("Uptaded in", values = colors_plot) +
   scale_linetype_manual("Uptaded in", values = linetype_plot) +
+=======
+  scale_color_manual("", values = colors_plot) +
+  scale_linetype_manual("", values = linetype_plot) +
+>>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
         axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
+<<<<<<< HEAD
         legend.key.size = unit(1, "cm"),
+=======
+        legend.key.size = unit(1.5, "cm"),
+>>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
         legend.text = element_text(size = size_plot),
         legend.title = element_text(size = size_plot),
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
