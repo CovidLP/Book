@@ -18,6 +18,7 @@ rm(list = ls())
 ###-----------------------------
 library(data.table)
 library(ggplot2)
+library(plyr)
 
 ###-----------------------------
 ### Setting seed
@@ -72,60 +73,63 @@ n_days<- 6
 ### Position of dates in which the estimated curves were updated
 aux_seq_dates<- round(x = seq(from = 1, to = length(dates_eval), length.out = n_days), digits = 0)
 
-### Data frame with results of daily updated prediction obtained by the CovidLP project
-df<- merge(x = Y, y = df_aux[,c(1, aux_seq_dates + 1)], by.x = "date", by.y = "date", all.x = TRUE, all.y = TRUE)
-colnames(df)[6:11]<- format(x = as.Date(colnames(df)[6:11]), "%d/%b/%Y")
+
+df_ggplot <- merge(x = Y, y = df_aux[,c(1, 2)], by.x = "date", by.y = "date", all.x = TRUE, all.y = TRUE)
+colnames(df_ggplot)<- c("date", "n", "d", "n_new", "d_new", "median")
+df_ggplot$update_date <- rep(x = colnames(df_aux)[2], times = nrow(df_ggplot))
+
+for(k in 2:length(dates_eval)){
+  
+  df_ggplot_aux <- merge(x = Y, y = df_aux[,c(1, k+1)], by.x = "date", by.y = "date", all.x = TRUE, all.y = TRUE)
+  colnames(df_ggplot_aux)<- c("date", "n", "d", "n_new", "d_new", "median")
+  df_ggplot_aux$update_date <- rep(x = colnames(df_aux)[k+1], times = nrow(df_ggplot_aux))
+  
+  
+  df_ggplot<- df_ggplot %>% add_row(df_ggplot_aux)
+  
+}
 
 ###------------------------------###------------------------------###------------------------------###
 
 ### R System in English
 Sys.setlocale("LC_TIME", "C")
 
-### Plot
-colors_plot<- c("#999999", rep(x = "black", times = 6)) ; linetype_plot<- c(1, 1:6)
-names(colors_plot)<- names(linetype_plot)<- c("observations", last(x = names(df)[-1], n = n_days))
+### Choosing updated dates of which the median curves will be plotted
+n_days<- 6
+chosen_dates<- as.character(dates_eval[seq(from = 1, to = length(dates_eval), length.out = n_days)])
 
-ggplot(data = df, linetype = linetype_plot) +
-  # geom_point(mapping = aes(x = date, y = n_new, colour = "observations")) + # plot observations as dots
-  geom_line(aes(x = date, y = n_new, colour = "observations", linetype = "observations")) + # plot observations as dots + lines
+### Plot
+colors_plot<- c("#999999", rep(x = "black", times = n_days))
+linetype_plot<- c(1, 1:n_days)
+shape_plot<- c(1, rep(x = NA, times = n_days))
+names(colors_plot) <- names(linetype_plot) <- names(shape_plot) <- c("observations", chosen_dates)
+
+ggplot(data = df_ggplot) +
+  geom_point(aes(x = date, y = n_new, colour = "observations", shape = "observations")) + # plot observations as dots
+  geom_line(aes(x = date, y = n_new, colour = "observations", linetype = "observations")) + # plot observations as
+  # dots + lines
+  geom_line(aes(x = date, y = median, group = update_date, colour = update_date, linetype = update_date,
+                shape = update_date),
+            data = function(x)(x[x$update_date %in% chosen_dates,])) + 
   labs(x = "Date", y = "Number of confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
-  scale_x_date(breaks = seq(from = first(df$date), to = last(df$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
-  
-  geom_line(mapping = aes(x = date, y = `14/Jun/2020`, colour = "14/Jun/2020", linetype = "14/Jun/2020"), size = size_line_plot) + 
-  geom_line(mapping = aes(x = date, y = `10/Jul/2020`, colour = "10/Jul/2020", linetype = "10/Jul/2020"), size = size_line_plot) +
-  geom_line(mapping = aes(x = date, y = `02/Aug/2020`, colour = "02/Aug/2020", linetype = "02/Aug/2020"), size = size_line_plot) + 
-  geom_line(mapping = aes(x = date, y = `29/Aug/2020`, colour = "29/Aug/2020", linetype = "29/Aug/2020"), size = size_line_plot) + 
-  geom_line(mapping = aes(x = date, y = `05/Oct/2020`, colour = "05/Oct/2020", linetype = "05/Oct/2020"), size = size_line_plot) + 
-  geom_line(mapping = aes(x = date, y = `28/Oct/2020`, colour = "28/Oct/2020", linetype = "28/Oct/2020"), size = size_line_plot) + 
-  
-<<<<<<< HEAD
-<<<<<<< HEAD
-  scale_color_manual("Uptaded in", values = colors_plot) +
-  scale_linetype_manual("Uptaded in", values = linetype_plot) +
-=======
-  scale_color_manual("", values = colors_plot) +
-  scale_linetype_manual("", values = linetype_plot) +
->>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
-=======
-  scale_color_manual("", values = colors_plot) +
-  scale_linetype_manual("", values = linetype_plot) +
->>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
+  scale_x_date(breaks = seq(from = first(df_ggplot$date), to = last(df_ggplot$date), by = 21),
+               date_labels = "%d/%b/%Y") + # specifies x-scale
+  scale_colour_manual(name = "Updated in", values = colors_plot,
+                      labels = c(format(x = as.Date(chosen_dates), "%d/%b/%Y"), "observations")) +
+  scale_fill_manual(name = "",values = colors_plot,
+                    labels = c(format(x = as.Date(chosen_dates), "%d/%b/%Y"), "observations")) +
+  scale_linetype_manual(name = "Updated in", values = linetype_plot,
+                        labels = c(format(x = as.Date(chosen_dates), "%d/%b/%Y"), "observations")) +
+  scale_shape_manual(name = "Updated in", values = shape_plot,
+                     labels = c(format(x = as.Date(chosen_dates), "%d/%b/%Y"), "observations")) +
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
         axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
-<<<<<<< HEAD
-<<<<<<< HEAD
-        legend.key.size = unit(1, "cm"),
-=======
-        legend.key.size = unit(1.5, "cm"),
->>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
-=======
-        legend.key.size = unit(1.5, "cm"),
->>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
         legend.text = element_text(size = size_plot),
+        legend.key.size = unit(1.5, "cm"),
         legend.title = element_text(size = size_plot),
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
