@@ -87,7 +87,7 @@ relative_error_short<- matrix(data = NA, nrow = k_steps_ahead_short, ncol = leng
 type_case<- "n_new"
 
 
-### Beggning data frame to use in ggplot
+### Beggining data frame to use in ggplot
 k<- 1
 
 ### Builds data frame with observations and prediction in date dates_eval[k]
