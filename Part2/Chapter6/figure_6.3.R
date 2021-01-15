@@ -51,7 +51,6 @@ results<- readRDS(file = paste0(results_directory, "Brazil_d.rds"))
 Sys.setlocale("LC_TIME", "C")
 
 ### Plot
-pdf(file = paste0(results_directory, "ggplot_data_fit_", country_name, ".pdf"), width = 28, height = 15)
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = d_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = d_new), color = "#999999") + # plot observations as dots + lines
@@ -66,7 +65,6 @@ ggplot(data = Y) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
-dev.off()
 
 ###------------------------------###
 ###   FIGURE 6.3 (b)             ###
@@ -84,7 +82,6 @@ results<- readRDS(file = paste0(results_directory, "Costa-Rica_n.rds"))
 Sys.setlocale("LC_TIME", "C")
 
 ### Plot
-# pdf(file = paste0(results_directory, "ggplot_data_fit_", country_name, ".pdf"), width = 28, height = 15)
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = n_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = n_new), color = "#999999") + # plot observations as dots + lines
@@ -99,7 +96,6 @@ ggplot(data = Y) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
-# dev.off()
 
 
 
