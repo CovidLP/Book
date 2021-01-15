@@ -2,7 +2,9 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 6, Section 6.3, Figure 6.4                          ###
+###   Chapter 6: Modelling specific data features                 ###
+###   Section 6.3: Seasonality                                    ###
+###   Figure 6.3                                                  ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
@@ -46,7 +48,6 @@ Y<- readRDS(file = paste0(data_directory, "data_Brazil.rds"))
 
 ### MCMC results
 results<- readRDS(file = paste0(results_directory, "Brazil_d.rds"))
-df<- data.frame(date = results$mu_plot$date[1:nrow(Y)], median = results$mu_plot$mu[1:nrow(Y)]) # mean curve data
 
 ### R system in English
 Sys.setlocale("LC_TIME", "C")
@@ -65,9 +66,7 @@ ggplot(data = Y) +
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
-        strip.text = element_text(size = size_plot)) +
-  geom_line(data = df, mapping = aes(x = date, y = median), color = "black") # adds fitted mean curve
-
+        strip.text = element_text(size = size_plot))
 
 ###------------------------------###
 ###   FIGURE 6.3 (b)             ###
@@ -80,7 +79,6 @@ Y<- readRDS(file = paste0(data_directory, "data_CostaRica.rds"))
 
 ### MCMC results
 results<- readRDS(file = paste0(results_directory, "Costa-Rica_n.rds"))
-df<- data.frame(date = results$mu_plot$date[1:nrow(Y)], median = results$mu_plot$mu[1:nrow(Y)]) # mean curve data
 
 ### R system in English
 Sys.setlocale("LC_TIME", "C")
@@ -99,9 +97,7 @@ ggplot(data = Y) +
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
-        strip.text = element_text(size = size_plot)) +
-  geom_line(data = df, mapping = aes(x = date, y = median), color = "black") # adds fitted mean curve
-
+        strip.text = element_text(size = size_plot))
 
 
 
