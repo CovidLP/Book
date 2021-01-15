@@ -96,86 +96,118 @@ type_case<- "n_new"
 k<- 1
 
 ### Builds data frame with observations and prediction in date dates_eval[k]
-df_cp_long<- merge(x = merge(x = Y[,c("date", type_case)],
+df_cp<- merge(x = merge(x = Y[,c("date", type_case)],
                              y = df_li[, colnames(df_li) %in% c("date", as.character(dates_eval)[k])],
                           by = "date"),
                    y = df_ls[, colnames(df_ls) %in% c("date", as.character(dates_eval)[k])],
                    by = "date")
-colnames(df_cp_long)<- c("date", type_case, "li", "ls")
-df_cp_long<- df_cp_long[complete.cases(df_cp_long),]
+colnames(df_cp)<- c("date", type_case, "li", "ls")
+df_cp<- df_cp[complete.cases(df_cp),]
+df_cp$cp_long<- as.numeric(data.table::between(x = df_cp[,type_case], lower = df_cp$li,
+                                                    upper = df_cp$ls))
 
-### Calculates RE for long-term comparison
-df_long_ggplot<- df_cp_long
-df_long_ggplot$updation_date<- rep(x = dates_eval[k], times = nrow(df_cp_long))
-df_long_ggplot$cp_long<- as.numeric(data.table::between(x = df_long_ggplot[,type_case], lower = df_cp_long$li,
-                                                        upper = df_cp_long$ls))
+df_ggplot<- data.frame(update_date = dates_eval[k],
+                       cp_long = ( sum(df_cp$cp_long) / nrow(df_cp))*100,
+                       cp_short = ( sum(df_cp$cp_long[1:k_steps_ahead_short]) / k_steps_ahead_short)*100)
                               
-
-### Calculates RE for short-term comparison
-df_short_ggplot<- df_cp_long[1:k_steps_ahead_short,]
-df_short_ggplot$updation_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
-df_short_ggplot$cp_short<- as.numeric(data.table::between(x = df_short_ggplot[,type_case],
-                                                          lower = df_short_ggplot$li, upper = df_short_ggplot$ls))
-
 
 ### Repeating for all dates that will be evaluated (dates_eval)
 for(k in 2:k_steps_ahead_long){
   
   ### Builds data frame with observations and prediction in date dates_eval[k]
-  df_relative_error<- merge(x = Y[,c("date", type_case)],
-                            y = df[, colnames(df) %in% c("date", as.character(dates_eval)[k])],
-                            by = "date")
-  colnames(df_relative_error)<- c("date", type_case, "median")
-  df_relative_error<- df_relative_error[complete.cases(df_relative_error),]
+  df_cp<- merge(x = merge(x = Y[,c("date", type_case)],
+                          y = df_li[, colnames(df_li) %in% c("date", as.character(dates_eval)[k])],
+                          by = "date"),
+                y = df_ls[, colnames(df_ls) %in% c("date", as.character(dates_eval)[k])],
+                by = "date")
+  colnames(df_cp)<- c("date", type_case, "li", "ls")
+  df_cp<- df_cp[complete.cases(df_cp),]
+  df_cp$cp_long<- as.numeric(data.table::between(x = df_cp[,type_case], lower = df_cp$li,
+                                                 upper = df_cp$ls))
   
-  ### Calculates RE for long-term comparison
-  df_long_ggplot_aux<- df_relative_error
-  df_long_ggplot_aux$updation_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
-  df_long_ggplot_aux$re_long<- ((df_relative_error$median - df_relative_error[,type_case]) /
-                                  (abs(df_relative_error[,type_case]) + 1))*100
-  df_long_ggplot<- merge(x = df_long_ggplot, y = df_long_ggplot_aux, all = TRUE)
-  
-  ### We want only full weeks ahead
-  if(nrow(df_relative_error) >= k_steps_ahead_short){
-    ### Calculates RE for short-term comparison
-    df_short_ggplot_aux<- df_relative_error[1:k_steps_ahead_short,]
-    df_short_ggplot_aux$updation_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
-    df_short_ggplot_aux$re_short<- (((df_relative_error$median - df_relative_error[,type_case]) /
-                                       (abs(df_relative_error[,type_case]) + 1))*100)[1:k_steps_ahead_short]
-    df_short_ggplot<- merge(x = df_short_ggplot, y = df_short_ggplot_aux, all = TRUE)
+  cp_long <- ( sum(df_cp$cp_long) / nrow(df_cp))*100
+  if(nrow(df_cp) >= k_steps_ahead_short){
+    cp_short <- ( sum(df_cp$cp_long[1:k_steps_ahead_short]) / k_steps_ahead_short)*100
+  } else{
+    cp_short<- NA
   }
   
+  df_ggplot<- df_ggplot %>% add_row(update_date = dates_eval[k], cp_long = cp_long, cp_short = cp_short)
+  
 }
 
-###-----------------------------
-### Coverage percentage - 7 days ahead
-###-----------------------------
 
-df_aux_li_v2<- results_countries$confirmed$long_term$q25
-df_aux_ls_v2<- results_countries$confirmed$long_term$q975
-dates_eval_v2<- as.Date(intersect(x = intersect(x = intersect(x = colnames(df_aux_li_v2), y = colnames(df_aux_ls_v2)),
-                                                y = as.character(seq(from = as.Date(colnames(df_aux_li_v2)[2]), to = as.Date("2020-10-31"),
-                                                                     by = "days"))),
-                                  y = as.character(seq(from = as.Date(colnames(df_aux_ls_v2)[2]), to = as.Date("2020-10-31"), by = "days"))))
-df_li_v2<- df_aux_li_v2[, colnames(df_aux_li_v2) %in% c("date", as.character(dates_eval_v2))]
-df_ls_v2<- df_aux_ls_v2[, colnames(df_aux_ls_v2) %in% c("date", as.character(dates_eval_v2))]
+### Plot (long term)
+ggplot(data = df_ggplot) +
+  geom_point(mapping = aes(x = update_date, y = cp_long), color = "#999999") + # plot observations as dots
+  geom_line(aes(x = update_date, y = cp_long), color = "#999999") + # plot observations as dots + lines
+  labs(x = "Update date", y = "Coverage percentage (long-term)") + # x- and y-labels
+  ggtitle(country_name) + # plot title
+  scale_x_date(breaks = seq(from = first(dates_eval), to = last(dates_eval), by = 7), date_labels = "%d/%b/%Y") + #
+  # specifies x-scale
+  theme_bw() + # white backgroud
+  theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
+        axis.text.y = element_text(size = size_plot), # optional settings for y-axis
+        axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
+        axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
+        plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
+        plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
+        strip.text = element_text(size = size_plot))
 
-last(which(dates_eval_v2 <= last(dates_eval_v2) - 7 + 1)) # ultimo dia com 7 dias de previsao
-k_steps_ahead_v2<- max(last(which(dates_eval_v2 <= last(dates_eval_v2) - 7)))
 
-pc_v2<- rep(x = NA, times = k_steps_ahead_v2)
-names(pc_v2)<- dates_eval_v2[1:k_steps_ahead_v2]
+### Plot (short term)
+ggplot(data = df_ggplot) +
+  geom_point(mapping = aes(x = update_date, y = cp_short), color = "#999999") + # plot observations as dots
+  geom_line(aes(x = update_date, y = cp_short), color = "#999999") + # plot observations as dots + lines
+  labs(x = "Update date", y = "Coverage percentage (short-term)") + # x- and y-labels
+  ggtitle(country_name) + # plot title
+  scale_x_date(breaks = seq(from = first(dates_eval), to = last(dates_eval), by = 7), date_labels = "%d/%b/%Y") + #
+  # specifies x-scale
+  theme_bw() + # white backgroud
+  theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
+        axis.text.y = element_text(size = size_plot), # optional settings for y-axis
+        axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
+        axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
+        plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
+        plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
+        strip.text = element_text(size = size_plot))
 
-for(k in 1:k_steps_ahead_v2){
-  
-  df_cp_v2<- merge(x = merge(x = Y[,c("date", "n_new")],
-                             y = df_li_v2[, colnames(df_li_v2) %in% c("date", as.character(dates_eval_v2)[k])], by = "date"),
-                   y = df_ls_v2[, colnames(df_ls_v2) %in% c("date", as.character(dates_eval_v2)[k])], by = "date")
-  colnames(df_cp_v2)<- c("date", "n_new", "q25", "q975")
-  df_cp_v2<- df_cp_v2[complete.cases(df_cp_v2),]
-  df_cp_v2<- df_cp_v2[df_cp_v2$date %in% seq(from = df_cp_v2$date[1], to = df_cp_v2$date[1]+6, by = "days"),]
-  
-  pc_aux_v2<- as.numeric(between(x = df_cp_v2$n_new, df_cp_v2$q25, df_cp_v2$q975))
-  pc_v2[k]<- (sum(pc_aux_v2) / length(pc_aux_v2))*100
-  rm(pc_aux_v2)
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
