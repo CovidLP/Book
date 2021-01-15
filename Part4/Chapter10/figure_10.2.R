@@ -100,8 +100,13 @@ ggplot(data = df, linetype = linetype_plot) +
   geom_line(mapping = aes(x = date, y = `28/Oct/2020`, colour = "28/Oct/2020", linetype = "28/Oct/2020"), size = size_line_plot) + 
   
 <<<<<<< HEAD
+<<<<<<< HEAD
   scale_color_manual("Uptaded in", values = colors_plot) +
   scale_linetype_manual("Uptaded in", values = linetype_plot) +
+=======
+  scale_color_manual("", values = colors_plot) +
+  scale_linetype_manual("", values = linetype_plot) +
+>>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
 =======
   scale_color_manual("", values = colors_plot) +
   scale_linetype_manual("", values = linetype_plot) +
@@ -112,7 +117,11 @@ ggplot(data = df, linetype = linetype_plot) +
         axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
 <<<<<<< HEAD
+<<<<<<< HEAD
         legend.key.size = unit(1, "cm"),
+=======
+        legend.key.size = unit(1.5, "cm"),
+>>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
 =======
         legend.key.size = unit(1.5, "cm"),
 >>>>>>> 80f9452447f43bae50e0e3a8e2aeb6505e819290
