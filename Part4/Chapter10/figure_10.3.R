@@ -87,7 +87,7 @@ relative_error_short<- matrix(data = NA, nrow = k_steps_ahead_short, ncol = leng
 type_case<- "n_new"
 
 
-### Beggning data frame to use in ggplot
+### Beggining data frame to use in ggplot
 k<- 1
 
 ### Builds data frame with observations and prediction in date dates_eval[k]
@@ -99,13 +99,13 @@ df_relative_error<- df_relative_error[complete.cases(df_relative_error),]
 
 ### Calculates RE for long-term comparison
 df_long_ggplot<- df_relative_error
-df_long_ggplot$updation_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
+df_long_ggplot$update_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
 df_long_ggplot$re_long<- ((df_relative_error$median - df_relative_error[,type_case]) /
                             (abs(df_relative_error[,type_case]) + 1))*100
 
 ### Calculates RE for short-term comparison
 df_short_ggplot<- df_relative_error[1:k_steps_ahead_short,]
-df_short_ggplot$updation_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
+df_short_ggplot$update_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
 df_short_ggplot$re_short<- (((df_relative_error$median - df_relative_error[,type_case]) /
                                (abs(df_relative_error[,type_case]) + 1))*100)[1:k_steps_ahead_short]
 
@@ -121,7 +121,7 @@ for(k in 2:k_steps_ahead_long){
   
   ### Calculates RE for long-term comparison
   df_long_ggplot_aux<- df_relative_error
-  df_long_ggplot_aux$updation_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
+  df_long_ggplot_aux$update_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
   df_long_ggplot_aux$re_long<- ((df_relative_error$median - df_relative_error[,type_case]) /
                                   (abs(df_relative_error[,type_case]) + 1))*100
   df_long_ggplot<- merge(x = df_long_ggplot, y = df_long_ggplot_aux, all = TRUE)
@@ -130,7 +130,7 @@ for(k in 2:k_steps_ahead_long){
   if(nrow(df_relative_error) >= k_steps_ahead_short){
     ### Calculates RE for short-term comparison
     df_short_ggplot_aux<- df_relative_error[1:k_steps_ahead_short,]
-    df_short_ggplot_aux$updation_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
+    df_short_ggplot_aux$update_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
     df_short_ggplot_aux$re_short<- (((df_relative_error$median - df_relative_error[,type_case]) /
                                        (abs(df_relative_error[,type_case]) + 1))*100)[1:k_steps_ahead_short]
     df_short_ggplot<- merge(x = df_short_ggplot, y = df_short_ggplot_aux, all = TRUE)
@@ -141,7 +141,7 @@ for(k in 2:k_steps_ahead_long){
 
 ### Plot (long term)
 ggplot(data = df_long_ggplot) +
-  geom_boxplot(mapping = aes(x = updation_date, y = re_long, group = updation_date), fill = "#999999") + # plot
+  geom_boxplot(mapping = aes(x = update_date, y = re_long, group = update_date), fill = "#999999") + # plot
   # boxplots of RE per day of update
   labs(x = "Date of update", y = "Relative error (long-term)") + # x- and y-labels
   ggtitle(country_name) + # plot title
@@ -159,7 +159,7 @@ ggplot(data = df_long_ggplot) +
 
 ### Plot (short term)
 ggplot(data = df_short_ggplot) +
-  geom_boxplot(mapping = aes(x = updation_date, y = re_short, group = updation_date), fill = "#999999") + # plot
+  geom_boxplot(mapping = aes(x = update_date, y = re_short, group = update_date), fill = "#999999") + # plot
   # boxplots of RE per day of update
   labs(x = "Date of update", y = "Relative error (short-term)") + # x- and y-labels
   ggtitle(country_name) + # plot title
