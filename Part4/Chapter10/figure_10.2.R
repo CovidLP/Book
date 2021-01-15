@@ -4,7 +4,7 @@
 ###                                                               ###
 ###   Chapter 10: Investigating inference results                 ###
 ###   Section 10.4  Practical situation                           ###
-###   Subsction 10.4.1 Overall comparison                         ###
+###   Subsection 10.4.1 Overall comparison                        ###
 ###   Figure 10.2                                                 ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
