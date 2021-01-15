@@ -3,9 +3,9 @@
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
 ###   Chapter 10: Investigating inference results                 ###
-###   Section 10.4  Practical situation                           ###
-###   Subsection 10.4.2 Multiple waves                            ###
-###   Figure 10.10                                                ###
+###   Section 10.4  Practical situations                          ###
+###   Subsection 10.4.1 Multiple waves                            ###
+###   Figure 10.11                                                ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
@@ -43,7 +43,7 @@ vjust_plot<- 1.8
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###-----------------###
-###   FIGURE 10.10  ###
+###   FIGURE 10.3   ###
 ###-----------------###
 
 country_name<- "US"
@@ -72,82 +72,80 @@ df<- df_aux[, colnames(df_aux) %in% c("date", as.character(dates_eval))]
 ###------------------------------###------------------------------###------------------------------###
 
 ###-----------------------------
-### Relative error (RE)
+### Coverage percentage
 ###-----------------------------
 
-### Long-term comparison: number of steps head to display RE
-k_steps_ahead_long<- length(dates_eval)
-relative_error_long<- matrix(data = NA, nrow = nrow(df), ncol = length(dates_eval))
+df_aux_li<- results_countries$confirmed$long_term$q25
+df_aux_ls<- results_countries$confirmed$long_term$q975
 
-### Short-term comparison: number of steps head to display RE
+df_li<- df_aux_li[, colnames(df_aux_li) %in% c("date", as.character(dates_eval))]
+df_ls<- df_aux_ls[, colnames(df_aux_ls) %in% c("date", as.character(dates_eval))]
+
+### Long-term comparison: number of steps head to display CP
+k_steps_ahead_long<- length(dates_eval)
+
+### Short-term comparison: number of steps head to display CP
 k_steps_ahead_short<- 7
-relative_error_short<- matrix(data = NA, nrow = k_steps_ahead_short, ncol = length(dates_eval))
 
 ### Case type: n_new or d_new
 type_case<- "n_new"
 
+###------------------------------
 
-### Beggining data frame to use in ggplot
+### Beginning data frame to use in ggplot
 k<- 1
 
 ### Builds data frame with observations and prediction in date dates_eval[k]
-df_relative_error<- merge(x = Y[,c("date", type_case)],
-                          y = df[, colnames(df) %in% c("date", as.character(dates_eval)[k])],
-                          by = "date")
-colnames(df_relative_error)<- c("date", type_case, "median")
-df_relative_error<- df_relative_error[complete.cases(df_relative_error),]
+df_cp<- merge(x = merge(x = Y[,c("date", type_case)],
+                        y = df_li[, colnames(df_li) %in% c("date", as.character(dates_eval)[k])],
+                        by = "date"),
+              y = df_ls[, colnames(df_ls) %in% c("date", as.character(dates_eval)[k])],
+              by = "date")
+colnames(df_cp)<- c("date", type_case, "li", "ls")
+df_cp<- df_cp[complete.cases(df_cp),]
+df_cp$cp_long<- as.numeric(data.table::between(x = df_cp[,type_case], lower = df_cp$li,
+                                               upper = df_cp$ls))
 
-### Calculates RE for long-term comparison
-df_long_ggplot<- df_relative_error
-df_long_ggplot$update_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
-df_long_ggplot$re_long<- ((df_relative_error$median - df_relative_error[,type_case]) /
-                            (abs(df_relative_error[,type_case]) + 1))*100
+df_ggplot<- data.frame(update_date = dates_eval[k],
+                       cp_long = ( sum(df_cp$cp_long) / nrow(df_cp))*100,
+                       cp_short = ( sum(df_cp$cp_long[1:k_steps_ahead_short]) / k_steps_ahead_short)*100)
 
-### Calculates RE for short-term comparison
-df_short_ggplot<- df_relative_error[1:k_steps_ahead_short,]
-df_short_ggplot$update_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
-df_short_ggplot$re_short<- (((df_relative_error$median - df_relative_error[,type_case]) /
-                               (abs(df_relative_error[,type_case]) + 1))*100)[1:k_steps_ahead_short]
 
 ### Repeating for all dates that will be evaluated (dates_eval)
 for(k in 2:k_steps_ahead_long){
   
   ### Builds data frame with observations and prediction in date dates_eval[k]
-  df_relative_error<- merge(x = Y[,c("date", type_case)],
-                            y = df[, colnames(df) %in% c("date", as.character(dates_eval)[k])],
-                            by = "date")
-  colnames(df_relative_error)<- c("date", type_case, "median")
-  df_relative_error<- df_relative_error[complete.cases(df_relative_error),]
+  df_cp<- merge(x = merge(x = Y[,c("date", type_case)],
+                          y = df_li[, colnames(df_li) %in% c("date", as.character(dates_eval)[k])],
+                          by = "date"),
+                y = df_ls[, colnames(df_ls) %in% c("date", as.character(dates_eval)[k])],
+                by = "date")
+  colnames(df_cp)<- c("date", type_case, "li", "ls")
+  df_cp<- df_cp[complete.cases(df_cp),]
+  df_cp$cp_long<- as.numeric(data.table::between(x = df_cp[,type_case], lower = df_cp$li,
+                                                 upper = df_cp$ls))
   
-  ### Calculates RE for long-term comparison
-  df_long_ggplot_aux<- df_relative_error
-  df_long_ggplot_aux$update_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
-  df_long_ggplot_aux$re_long<- ((df_relative_error$median - df_relative_error[,type_case]) /
-                                  (abs(df_relative_error[,type_case]) + 1))*100
-  df_long_ggplot<- merge(x = df_long_ggplot, y = df_long_ggplot_aux, all = TRUE)
-  
-  ### We want only full weeks ahead
-  if(nrow(df_relative_error) >= k_steps_ahead_short){
-    ### Calculates RE for short-term comparison
-    df_short_ggplot_aux<- df_relative_error[1:k_steps_ahead_short,]
-    df_short_ggplot_aux$update_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
-    df_short_ggplot_aux$re_short<- (((df_relative_error$median - df_relative_error[,type_case]) /
-                                       (abs(df_relative_error[,type_case]) + 1))*100)[1:k_steps_ahead_short]
-    df_short_ggplot<- merge(x = df_short_ggplot, y = df_short_ggplot_aux, all = TRUE)
+  cp_long <- ( sum(df_cp$cp_long) / nrow(df_cp))*100
+  if(nrow(df_cp) >= k_steps_ahead_short){
+    cp_short <- ( sum(df_cp$cp_long[1:k_steps_ahead_short]) / k_steps_ahead_short)*100
+  } else{
+    cp_short<- NA
   }
+  
+  df_ggplot<- df_ggplot %>% add_row(update_date = dates_eval[k], cp_long = cp_long, cp_short = cp_short)
   
 }
 
 
 ### Plot (long term)
-ggplot(data = df_long_ggplot) +
-  geom_boxplot(mapping = aes(x = update_date, y = re_long, group = update_date), fill = "#999999") + # plot
-  # boxplots of RE per day of update
-  labs(x = "Date of update", y = "Relative error (long-term)") + # x- and y-labels
+ggplot(data = df_ggplot) +
+  geom_point(mapping = aes(x = update_date, y = cp_long), color = "#999999") + # plot observations as dots
+  geom_line(aes(x = update_date, y = cp_long), color = "#999999") + # plot observations as dots + lines
+  labs(x = "Update date", y = "Coverage percentage (long-term)") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(dates_eval), to = last(dates_eval), by = 7), date_labels = "%d/%b/%Y") + #
   # specifies x-scale
-  geom_hline(yintercept = 0, linetype = linetype_plot, color = "black", size = size_line_plot) + # reference line
+  ylim(0, 100) + # y limits
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
@@ -156,16 +154,17 @@ ggplot(data = df_long_ggplot) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
+
 
 ### Plot (short term)
-ggplot(data = df_short_ggplot) +
-  geom_boxplot(mapping = aes(x = update_date, y = re_short, group = update_date), fill = "#999999") + # plot
-  # boxplots of RE per day of update
-  labs(x = "Date of update", y = "Relative error (short-term)") + # x- and y-labels
+ggplot(data = df_ggplot) +
+  geom_point(mapping = aes(x = update_date, y = cp_short), color = "#999999") + # plot observations as dots
+  geom_line(aes(x = update_date, y = cp_short), color = "#999999") + # plot observations as dots + lines
+  labs(x = "Update date", y = "Coverage percentage (short-term)") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(dates_eval), to = last(dates_eval), by = 7), date_labels = "%d/%b/%Y") + #
   # specifies x-scale
-  geom_hline(yintercept = 0, linetype = linetype_plot, color = "black", size = size_line_plot) + # reference line
+  ylim(0, 100) + # y limits
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
@@ -174,13 +173,6 @@ ggplot(data = df_short_ggplot) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
-
-
-
-
-
-
-
 
 
 
