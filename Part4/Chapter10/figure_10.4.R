@@ -83,44 +83,69 @@ df_ls<- df_aux_ls[, colnames(df_aux_ls) %in% c("date", as.character(dates_eval))
 
 ### Long-term comparison: number of steps head to display CP
 k_steps_ahead_long<- length(dates_eval)
-cp_long<- matrix(data = NA, nrow = nrow(df), ncol = length(dates_eval))
 
 ### Short-term comparison: number of steps head to display CP
-k_steps_ahead_short<- length(dates_eval)
-cp_long<- rep(x = NA, times = k_steps_ahead_long)
+k_steps_ahead_short<- 7
 
-k_steps_ahead<- length(dates_eval)
+### Case type: n_new or d_new
+type_case<- "n_new"
 
-names(pc)<- dates_eval
+###------------------------------
 
-for(k in 1:k_steps_ahead){
+### Beginning data frame to use in ggplot
+k<- 1
+
+### Builds data frame with observations and prediction in date dates_eval[k]
+df_cp_long<- merge(x = merge(x = Y[,c("date", type_case)],
+                             y = df_li[, colnames(df_li) %in% c("date", as.character(dates_eval)[k])],
+                          by = "date"),
+                   y = df_ls[, colnames(df_ls) %in% c("date", as.character(dates_eval)[k])],
+                   by = "date")
+colnames(df_cp_long)<- c("date", type_case, "li", "ls")
+df_cp_long<- df_cp_long[complete.cases(df_cp_long),]
+
+### Calculates RE for long-term comparison
+df_long_ggplot<- df_cp_long
+df_long_ggplot$updation_date<- rep(x = dates_eval[k], times = nrow(df_cp_long))
+df_long_ggplot$cp_long<- as.numeric(data.table::between(x = df_long_ggplot[,type_case], lower = df_cp_long$li,
+                                                        upper = df_cp_long$ls))
+                              
+
+### Calculates RE for short-term comparison
+df_short_ggplot<- df_cp_long[1:k_steps_ahead_short,]
+df_short_ggplot$updation_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
+df_short_ggplot$cp_short<- as.numeric(data.table::between(x = df_short_ggplot[,type_case],
+                                                          lower = df_short_ggplot$li, upper = df_short_ggplot$ls))
+
+
+### Repeating for all dates that will be evaluated (dates_eval)
+for(k in 2:k_steps_ahead_long){
   
-  df_cp<- merge(x = merge(x = Y[,c("date", "n_new")],
-                          y = df_li[, colnames(df_li) %in% c("date", as.character(dates_eval)[k])], by = "date"),
-                y = df_ls[, colnames(df_ls) %in% c("date", as.character(dates_eval)[k])], by = "date")
-  colnames(df_cp)<- c("date", "n_new", "q25", "q975")
-  df_cp<- df_cp[complete.cases(df_cp),]
+  ### Builds data frame with observations and prediction in date dates_eval[k]
+  df_relative_error<- merge(x = Y[,c("date", type_case)],
+                            y = df[, colnames(df) %in% c("date", as.character(dates_eval)[k])],
+                            by = "date")
+  colnames(df_relative_error)<- c("date", type_case, "median")
+  df_relative_error<- df_relative_error[complete.cases(df_relative_error),]
   
-  pc_aux<- as.numeric(between(x = df_cp$n_new, df_cp$q25, df_cp$q975))
-  pc[k]<- (sum(pc_aux) / length(pc_aux))*100
-  rm(pc_aux)
+  ### Calculates RE for long-term comparison
+  df_long_ggplot_aux<- df_relative_error
+  df_long_ggplot_aux$updation_date<- rep(x = dates_eval[k], times = nrow(df_relative_error))
+  df_long_ggplot_aux$re_long<- ((df_relative_error$median - df_relative_error[,type_case]) /
+                                  (abs(df_relative_error[,type_case]) + 1))*100
+  df_long_ggplot<- merge(x = df_long_ggplot, y = df_long_ggplot_aux, all = TRUE)
+  
+  ### We want only full weeks ahead
+  if(nrow(df_relative_error) >= k_steps_ahead_short){
+    ### Calculates RE for short-term comparison
+    df_short_ggplot_aux<- df_relative_error[1:k_steps_ahead_short,]
+    df_short_ggplot_aux$updation_date<- rep(x = dates_eval[k], times = k_steps_ahead_short)
+    df_short_ggplot_aux$re_short<- (((df_relative_error$median - df_relative_error[,type_case]) /
+                                       (abs(df_relative_error[,type_case]) + 1))*100)[1:k_steps_ahead_short]
+    df_short_ggplot<- merge(x = df_short_ggplot, y = df_short_ggplot_aux, all = TRUE)
+  }
+  
 }
-
-pdf(file = paste0(results_directory, "cp_confirmed_", set_states[aa], ".pdf"), width = 12, height = 6)
-Sys.setlocale("LC_TIME", "C") 
-par(mar = c(5, 5, 3, 2) + 0.1)
-plot(pc, 
-     type = "b",
-     ylim = c(0, 100), cex.axis = cex_plot,
-     main = set_states[aa], cex.main = cex_plot,
-     xlab = "Date", ylab = "CP", cex.lab = cex_plot,
-     col = colors_plot[1], pch = pch_plot, lty = 1, lwd = 2,
-     xaxt = "n")
-axis(side = 1, at = seq(from = 1, to = k_steps_ahead, by = 7),
-     labels = format(x = dates_eval, "%d/%b")[seq(from = 1, to = k_steps_ahead, by = 7)], cex.axis = cex_plot)
-dev.off()
-
-# rm(df_aux_li, df_aux_ls, df_aux, dates_eval)
 
 ###-----------------------------
 ### Coverage percentage - 7 days ahead
