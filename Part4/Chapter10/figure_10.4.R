@@ -145,6 +145,7 @@ ggplot(data = df_ggplot) +
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(dates_eval), to = last(dates_eval), by = 7), date_labels = "%d/%b/%Y") + #
   # specifies x-scale
+  ylim(0, 100) + # y limits
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
@@ -163,6 +164,7 @@ ggplot(data = df_ggplot) +
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(dates_eval), to = last(dates_eval), by = 7), date_labels = "%d/%b/%Y") + #
   # specifies x-scale
+  ylim(0, 100) + # y limits
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
@@ -171,42 +173,6 @@ ggplot(data = df_ggplot) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
