@@ -45,10 +45,10 @@ vjust_plot<- 1.8
 ###   FIGURE 10.2   ###
 ###-----------------###
 
-country_name<- "Argentina"
+country_name<- "US"
 
 ### Observed data
-Y<- readRDS(file = paste0(data_directory, "data_Argentina.rds"))
+Y<- readRDS(file = paste0(data_directory, "data_USA.rds"))
 
 ### Reading results from GitHub
 baseURL_countries<- paste0("https://github.com/gabrieloa/covid/blob/master/file_", country_name, ".RDS?raw=true")
