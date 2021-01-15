@@ -10,7 +10,7 @@
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
 
-### Removing alocated objects
+### Removing allocated objects
 rm(list = ls())
 
 ###-----------------------------
@@ -67,7 +67,7 @@ dates_eval<- as.Date(intersect(x = colnames(df_aux),
                                                     to = as.Date("2020-10-31"), by = "days"))))
 df_aux<- df_aux[, colnames(df_aux) %in% c("date", as.character(dates_eval))]
 
-### Number of estimated curves that will be ploted
+### Number of estimated curves that will be plotted
 n_days<- 6
 
 ### Position of dates in which the estimated curves were updated
