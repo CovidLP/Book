@@ -25,19 +25,19 @@ countrylist = c("Belgium","Canada","Italy","Japan","South Africa")
 
 for( s in 1:length(countrylist)){
   
-data = load_covid(countrylist[s])
-
-covid_country = data$data[,c(1,4,5)]
-
-covid_country_death = rbind(covid_country_death,
-                            covid_country[1:length.death[s],c(1,3)]
-                            )
-
-
-covid_country_cases = rbind(covid_country_cases,
-                            covid_country[1:length.cases[s],c(1,2)]
-                            )
-
+  data = load_covid(countrylist[s])
+  
+  covid_country = data$data[,c(1,4,5)]
+  
+  covid_country_death = rbind(covid_country_death,
+                              covid_country[1:length.death[s],c(1,3)]
+  )
+  
+  
+  covid_country_cases = rbind(covid_country_cases,
+                              covid_country[1:length.cases[s],c(1,2)]
+  )
+  
 }
 
 covid_country_death = data.frame(names=rep(countrylist,length.death),
@@ -46,18 +46,16 @@ covid_country_death = data.frame(names=rep(countrylist,length.death),
 covid_country_cases = data.frame(names=rep(countrylist,length.cases),
                                  covid_country_cases)
 
-
-
+head(covid_country_death)
+unique(covid_country_death[,1])
 #-----------------------------
-# mu - Logistic Generalized
-# NOTES: DOWNLOAD LOGISTIC GENERALIZED FOLDER : https://github.com/CovidLP/Book/tree/main/Part2/Chapter3/data 
+# mu -Generalized Logistic
+# NOTES: DOWNLOAD Generalized_Logistic FOLDER : https://github.com/CovidLP/Book/tree/main/Part2/Chapter3/data 
 #-----------------------------
 
-path.LG = "path of the Logistic Generalized folder"
-
+path.LG = "path of Generalized Logistic folder"
 # deaths
 setwd(paste0(path.LG,"\\death"))
-
 file_list <- list.files(pattern = ".rds")
 mu_country_deaths_LG = NULL
 for(i in 1:length(file_list)){
@@ -84,7 +82,7 @@ for(i in 1:length(file_list)){
 # NOTES: DOWNLOAD LOGISTIC FOLDER : https://github.com/CovidLP/Book/tree/main/Part2/Chapter3/data 
 #-----------------------------
 
-path.logistic = "path of the Logistic folder "
+path.logistic = "path of Logistic folder"
 
 # deaths
 setwd(paste0(path.logistic,"\\death"))
@@ -113,13 +111,13 @@ for(i in 1:length(file_list)){
 # Figure
 #---------
 th = theme(axis.text.y = element_text(size=10),
-             axis.text.x = element_text(size=8),
-             strip.text = element_text(size=10)) 
+           axis.text.x = element_text(size=8),
+           strip.text = element_text(size=10)) 
 
 
 Sys.setlocale("LC_TIME", "English")
 figure_death =  data.frame(covid_country_death,mu_country_deaths_L$mu,
-                          mu_country_deaths_LG$mu) %>% 
+                           mu_country_deaths_LG$mu) %>% 
   rename(mu.L=mu_country_deaths_L.mu,
          mu.LG=mu_country_deaths_LG.mu) %>%
   ggplot()+
@@ -145,7 +143,7 @@ figure_cases =  data.frame(covid_country_cases,mu_country_cases_L$mu,
   ylab(label = "New cases per day")+th
 
 figure = cowplot::plot_grid(figure_cases,figure_death,ncol = 2)
-
+figure
 #---------
 # Video
 #---------
@@ -165,9 +163,3 @@ for(i in 2:100){
   new_gif=c(new_gif,combined)
 }
 new_gif
-
-# save: Viewer - show in new window - click the left mouse button to save
-
-
-
-
