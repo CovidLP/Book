@@ -49,14 +49,16 @@ covid_country_cases = data.frame(names=rep(countrylist,length.cases),
 
 
 #-----------------------------
-# mu - Logistic generalized 
+# mu - Logistic Generalized
+# NOTES: DOWNLOAD LOGISTIC GENERALIZED FOLDER : https://github.com/CovidLP/Book/tree/main/Part2/Chapter3/data 
 #-----------------------------
 
-# deaths
-setwd("G:\\Meu Drive\\UFMG - Doutorado\\LivroPandemia\\Analise-dados\\deaths")
-path.files = getwd()
-file_list <- list.files(pattern = ".rds")
+path.LG = "path of the Logistic Generalized folder"
 
+# deaths
+setwd(paste0(path.LG,"\\death"))
+
+file_list <- list.files(pattern = ".rds")
 mu_country_deaths_LG = NULL
 for(i in 1:length(file_list)){
   rds.data = readRDS(file_list[i])
@@ -65,8 +67,8 @@ for(i in 1:length(file_list)){
 }
 
 # cases
-setwd("G:\\Meu Drive\\UFMG - Doutorado\\LivroPandemia\\Analise-dados\\cases")
-path.files = getwd()
+setwd(paste0(path.LG,"\\cases"))
+
 file_list <- list.files(pattern = ".rds")
 mu_country_cases_LG = NULL
 for(i in 1:length(file_list)){
@@ -79,11 +81,13 @@ for(i in 1:length(file_list)){
 
 #-----------------------------
 # mu - Logistic  
+# NOTES: DOWNLOAD LOGISTIC FOLDER : https://github.com/CovidLP/Book/tree/main/Part2/Chapter3/data 
 #-----------------------------
 
+path.logistic = "path of the Logistic folder "
+
 # deaths
-setwd("G:\\Meu Drive\\UFMG - Doutorado\\LivroPandemia\\Analise-dados\\deaths\\logistica")
-path.files = getwd()
+setwd(paste0(path.logistic,"\\death"))
 file_list <- list.files(pattern = ".rds")
 
 mu_country_deaths_L = NULL
@@ -93,9 +97,9 @@ for(i in 1:length(file_list)){
   mu_country_deaths_L = rbind(mu_country_deaths_L,mu_plot_death[1:length.death[i],])
 }
 
+
 # cases
-setwd("G:\\Meu Drive\\UFMG - Doutorado\\LivroPandemia\\Analise-dados\\cases\\logistica")
-path.files = getwd()
+setwd(paste0(path.logistic,"\\cases"))
 file_list <- list.files(pattern = ".rds")
 mu_country_cases_L = NULL
 for(i in 1:length(file_list)){
@@ -110,7 +114,7 @@ for(i in 1:length(file_list)){
 #---------
 th = theme(axis.text.y = element_text(size=10),
              axis.text.x = element_text(size=8),
-             strip.text = element_text(size=10))
+             strip.text = element_text(size=10)) 
 
 
 Sys.setlocale("LC_TIME", "English")
@@ -146,23 +150,23 @@ figure = cowplot::plot_grid(figure_cases,figure_death,ncol = 2)
 # Video
 #---------
 
-video_cases = figure_cases+gganimate::transition_reveal(date)
+video_cases = figure_cases+gganimate::transition_reveal(date) 
 video_death = figure_death+gganimate::transition_reveal(date)
 
-a = gganimate::animate(video_cases,height = 480, width = 640)
-b = gganimate::animate(video_death,height = 480, width = 640)
+v_cases = gganimate::animate(video_cases,height = 480, width = 640)
+v_death = gganimate::animate(video_death,height = 480, width = 640)
 
-a_mgif<-magick::image_read(a)
-b_mgif<-magick::image_read(b)
+cases_mgif=magick::image_read(v_cases)
+death_mgif=magick::image_read(v_death)
 
-new_gif<-magick::image_append(c(a_mgif[1], b_mgif[1]))
+new_gif<-magick::image_append(c(cases_mgif[1], death_mgif[1]))
 for(i in 2:100){
-  combined <- magick::image_append(c(a_mgif[i], b_mgif[i]))
-  new_gif<-c(new_gif,combined)
+  combined = magick::image_append(c(cases_mgif[i], death_mgif[i]))
+  new_gif=c(new_gif,combined)
 }
 new_gif
 
-# save: Viewer - show in new window - save 
+# save: Viewer - show in new window - click the left mouse button to save
 
 
 
