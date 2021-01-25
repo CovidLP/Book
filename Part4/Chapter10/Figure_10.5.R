@@ -73,7 +73,6 @@ linetype_plot <- c(1, 2, 1)
 shape_plot <- c(1, NA, NA)
 names(colors_plot) <- names(linetype_plot) <- names(shape_plot) <- c("observations", "regular", "weekend effect")
 
-
 ggplot(data = df_ggplot) +
   geom_point(aes(x = date, y = n_new, colour = "observations", shape = "observations")) + # plot observations as dots
   geom_line(aes(x = date, y = n_new, colour = "observations", linetype = "observations")) + # plot observations as
@@ -82,7 +81,7 @@ ggplot(data = df_ggplot) +
                 shape = "regular")) +
   geom_line(aes(x = date, y = median_weekend, group = "weekend effect", colour = "weekend effect",
                 linetype = "weekend effect", shape = "weekend effect")) + 
-  labs(x = "Date", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Date", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(state_name) + # plot title
   scale_x_date(breaks = seq(from = first(df_ggplot$date), to = last(df_ggplot$date), by = 21),
                date_labels = "%d/%b/%Y") + # specifies x-scale
@@ -138,7 +137,6 @@ linetype_plot <- c(1, 2, 1)
 shape_plot <- c(1, NA, NA)
 names(colors_plot) <- names(linetype_plot) <- names(shape_plot) <- c("observations", "regular", "weekend effect")
 
-
 ggplot(data = df_ggplot) +
   geom_point(aes(x = date, y = n_new, colour = "observations", shape = "observations")) + # plot observations as dots
   geom_line(aes(x = date, y = n_new, colour = "observations", linetype = "observations")) + # plot observations as
@@ -147,7 +145,7 @@ ggplot(data = df_ggplot) +
                 shape = "regular")) +
   geom_line(aes(x = date, y = median_weekend, group = "weekend effect", colour = "weekend effect",
                 linetype = "weekend effect", shape = "weekend effect")) + 
-  labs(x = "Date", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Date", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(state_name) + # plot title
   scale_x_date(breaks = seq(from = first(df_ggplot$date), to = last(df_ggplot$date), by = 21),
                date_labels = "%d/%b/%Y") + # specifies x-scale
