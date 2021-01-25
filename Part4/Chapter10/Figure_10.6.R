@@ -91,9 +91,11 @@ ggplot(data = df_ggplot) +
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
         axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
+        legend.key.size = unit(0.5, "cm"), # optional settings for symbol size in legend
+        legend.text = element_text(size = size_plot), # optional setting for legend size
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
-        strip.text = element_text(size = size_plot)) 
+        strip.text = element_text(size = size_plot))
 
 ###-----------------------------###-----------------------------###-----------------------------###
 
@@ -150,6 +152,8 @@ ggplot(data = df_ggplot) +
         axis.text.y = element_text(size = size_plot), # optional settings for y-axis
         axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
+        legend.key.size = unit(0.5, "cm"), # optional settings for symbol size in legend
+        legend.text = element_text(size = size_plot), # optional settings for legend size
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
