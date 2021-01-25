@@ -108,7 +108,7 @@ ggplot(data = df_ggplot) +
   geom_line(aes(x = date, y = median, group = update_date, colour = update_date, linetype = update_date,
                 shape = update_date),
             data = function(x)(x[x$update_date %in% chosen_dates,])) + 
-  labs(x = "Date", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Date", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(df_ggplot$date), to = last(df_ggplot$date), by = 21),
                date_labels = "%d/%b/%Y") + # specifies x-scale
@@ -131,3 +131,4 @@ ggplot(data = df_ggplot) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
+

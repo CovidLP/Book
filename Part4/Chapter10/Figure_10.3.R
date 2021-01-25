@@ -24,7 +24,7 @@ library(tidyverse)
 ### Setting seed
 set.seed(123456789)
 ###-----------------------------
-
+    
 ###-----------------------------
 ### Setting directories
 data_directory<- "Part4/Chapter10/data/"
@@ -35,7 +35,7 @@ results_directory<- "Part4/Chapter10/results/"
 ### Graphical specifications (you may need to adapt these settings)
 linetype_plot<- 1.2
 size_line_plot<- 1.2
-size_plot<- 15
+size_plot<- 45
 vjust_plot<- 1.8
 
 ###-----------------------------
@@ -140,6 +140,7 @@ for(k in 2:k_steps_ahead_long){
 
 
 ### Plot (long term)
+pdf(file = "re_confirmed_Argentina.pdf", width = 32, height = 18)
 ggplot(data = df_long_ggplot) +
   geom_boxplot(mapping = aes(x = update_date, y = re_long, group = update_date), fill = "#999999") + # plot
   # boxplots of RE per day of update
@@ -156,8 +157,10 @@ ggplot(data = df_long_ggplot) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
+dev.off()
 
 ### Plot (short term)
+pdf(file = "re_confirmed_Argentina_v2.pdf", width = 32, height = 18)
 ggplot(data = df_short_ggplot) +
   geom_boxplot(mapping = aes(x = update_date, y = re_short, group = update_date), fill = "#999999") + # plot
   # boxplots of RE per day of update
@@ -174,6 +177,7 @@ ggplot(data = df_short_ggplot) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
+dev.off()
 
 
 
