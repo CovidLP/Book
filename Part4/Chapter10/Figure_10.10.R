@@ -182,6 +182,3 @@ ggplot(data = df_short_ggplot) +
 
 
 
-
-
-
