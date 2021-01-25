@@ -101,7 +101,6 @@ ggplot(data = df_ggplot) +
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
 
-
 ###------------------------------###
 ###   FIGURE 10.5 (b)             ###
 ###------------------------------###
@@ -164,6 +163,5 @@ ggplot(data = df_ggplot) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
-
 
 
