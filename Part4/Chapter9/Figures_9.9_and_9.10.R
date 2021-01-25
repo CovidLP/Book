@@ -30,7 +30,7 @@ data_directory<- "Part4/Chapter9/data/"
 
 ###-----------------------------
 ### Graphical specifications (you may need to adapt these settings)
-size_plot<- 65
+size_plot<- 15
 vjust_plot<- 1.8
 ###-----------------------------
 
