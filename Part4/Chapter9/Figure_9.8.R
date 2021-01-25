@@ -52,7 +52,7 @@ Sys.setlocale("LC_TIME", "C")
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = n_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = n_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Notification Date", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud
@@ -68,7 +68,7 @@ ggplot(data = Y) +
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = d_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = d_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed deaths") + # x- and y-labels
+  labs(x = "Notification Date", y = "Daily confirmed deaths") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud
@@ -96,7 +96,7 @@ Sys.setlocale("LC_TIME", "C")
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = n_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = n_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Notification Date", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud
@@ -108,12 +108,11 @@ ggplot(data = Y) +
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
 
-
 ### Plot
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = d_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = d_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed deaths") + # x- and y-labels
+  labs(x = "Notification Date", y = "Daily confirmed deaths") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud
@@ -141,7 +140,7 @@ Sys.setlocale("LC_TIME", "C")
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = n_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = n_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Notification Date", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud
@@ -153,12 +152,11 @@ ggplot(data = Y) +
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
 
-
 ### Plot
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = d_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = d_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed deaths") + # x- and y-labels
+  labs(x = "Notification Date", y = "Daily confirmed deaths") + # x- and y-labels
   ggtitle(country_name) + # plot title
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud

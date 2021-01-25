@@ -30,7 +30,7 @@ data_directory<- "Part4/Chapter9/data/"
 
 ###-----------------------------
 ### Graphical specifications (you may need to adapt these settings)
-size_plot<- 15
+size_plot<- 65
 vjust_plot<- 1.8
 ###-----------------------------
 
@@ -53,7 +53,7 @@ Y$weekday<- factor(x = weekdays(Y$date),
 ### Plot
 ggplot(data = Y) +
   geom_boxplot(mapping = aes(x = weekday, y = n_new), fill = "#999999") + # plot boxplots of cases per weekday
-  labs(x = "Day of the week", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Day of the week", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -67,7 +67,7 @@ ggplot(data = Y) +
 ### Plot
 ggplot(data = Y) +
   geom_boxplot(mapping = aes(x = weekday, y = d_new), fill = "#999999") + # plot boxplots of cases per weekday
-  labs(x = "Day of the week", y = "Number of confirmed deaths") + # x- and y-labels
+  labs(x = "Day of the week", y = "Daily confirmed deaths") + # x- and y-labels
   ggtitle(country_name) + # plot title
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -98,7 +98,7 @@ Y$weekday<- factor(x = weekdays(Y$date),
 ### Plot
 ggplot(data = Y) +
   geom_boxplot(mapping = aes(x = weekday, y = n_new), fill = "#999999") + # plot boxplots of cases per weekday
-  labs(x = "Day of the week", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Day of the week", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -112,7 +112,7 @@ ggplot(data = Y) +
 ### Plot
 ggplot(data = Y) +
   geom_boxplot(mapping = aes(x = weekday, y = d_new), fill = "#999999") + # plot boxplots of cases per weekday
-  labs(x = "Day of the week", y = "Number of confirmed deaths") + # x- and y-labels
+  labs(x = "Day of the week", y = "Daily confirmed deaths") + # x- and y-labels
   ggtitle(country_name) + # plot title
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -142,7 +142,7 @@ Y$weekday<- factor(x = weekdays(Y$date),
 ### Plot
 ggplot(data = Y) +
   geom_boxplot(mapping = aes(x = weekday, y = n_new), fill = "#999999") + # plot boxplots of cases per weekday
-  labs(x = "Day of the week", y = "Number of confirmed cases") + # x- and y-labels
+  labs(x = "Day of the week", y = "Daily confirmed cases") + # x- and y-labels
   ggtitle(country_name) + # plot title
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -156,7 +156,7 @@ ggplot(data = Y) +
 ### Plot
 ggplot(data = Y) +
   geom_boxplot(mapping = aes(x = weekday, y = d_new), fill = "#999999") + # plot boxplots of cases per weekday
-  labs(x = "Day of the week", y = "Number of confirmed deaths") + # x- and y-labels
+  labs(x = "Day of the week", y = "Daily confirmed deaths") + # x- and y-labels
   ggtitle(country_name) + # plot title
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -166,3 +166,5 @@ ggplot(data = Y) +
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot))
+
+
