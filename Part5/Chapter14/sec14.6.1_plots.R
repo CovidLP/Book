@@ -2,7 +2,7 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 14: Building an interactive app withShiny           ###
+###   Chapter 14: Building an interactive app with Shiny          ###
 ###   Sections 14.6                                               ###
 ###   Subsection 14.6.1 plotlybasics                              ###
 ###                                                               ###
@@ -14,10 +14,10 @@
 
 
 # load packages
-require(plotly)
-require(PandemicLP)
-require(RColorBrewer)
-require(rsvg)
+library(plotly)
+library(PandemicLP)
+library(RColorBrewer)
+library(rsvg)
 
 
 # load data

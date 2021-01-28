@@ -2,7 +2,7 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 14: Building an interactive app withShiny           ###
+###   Chapter 14: Building an interactive app with Shiny          ###
 ###   Sections 14.3 and 14.5                                      ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
