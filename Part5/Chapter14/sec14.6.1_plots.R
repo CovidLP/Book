@@ -1,6 +1,13 @@
-## Building a Platform for Data-Driven Pandemic Prediction
-## From Data Modelling to Visualization - the CodiLP Project
-
+###---------------------------------------------------------------###
+###   Building a Platform for Data-Driven Pandemic Prediction:    ###
+###   From Data Modelling to Visualization - the CovidLP Project  ###
+###                                                               ###
+###   Chapter 14: Building an interactive app withShiny           ###
+###   Sections 14.6                                               ###
+###   Subsection 14.6.1 plotlybasics                              ###
+###                                                               ###
+###   Author: the CovidLP Team                                    ###
+###---------------------------------------------------------------###
 
 ## Chapter 14 - Section 14.6.1
 ## Code to create 'plotly' graphs for example
