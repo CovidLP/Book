@@ -14,7 +14,6 @@ library(shiny)
 
 # Data
 data <- PandemicLP::load_covid(country_name = 'argentina', last_date = '2020-11-15')$data
-
 # data <- read.table(file = "data/argentine.csv", sep = ";", header = TRUE) # Run this to load the data from a file
 
 # Simple app 1

@@ -22,6 +22,7 @@ library(rsvg)
 
 # load data
 Argentina = load_covid("Argentina", last_date = "2020/12/15")
+# Argentina <- read.table(file = "data/argentine.csv", sep = ";", header = TRUE) # Run this to load the data from a file
 
 
 # Listing 14.13:
