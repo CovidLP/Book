@@ -33,7 +33,7 @@ results_directory<- "Part2/Chapter6/results/"
 ###-----------------------------
 ### Graphical specifications (you may need to adapt these settings)
 size_plot<- 15
-vjust_plot<- 1.8
+vjust_plot<- 0.5
 ###-----------------------------
 
 ###-----------------------------###-----------------------------###-----------------------------###
@@ -58,8 +58,7 @@ Sys.setlocale("LC_TIME", "C")
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = d_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = d_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed deaths") + # x- and y-labels
-  ggtitle(country_name) + # plot title
+  labs(x = "Reporting date", y = "Daily of confirmed deaths") + # x- and y-labels
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -67,7 +66,6 @@ ggplot(data = Y) +
         axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
-        plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot)) +
   geom_line(data = df, mapping = aes(x = date, y = median), color = "black") # adds fitted mean curve
 
@@ -92,8 +90,7 @@ Sys.setlocale("LC_TIME", "C")
 ggplot(data = Y) +
   geom_point(mapping = aes(x = date, y = n_new), color = "#999999") + # plot observations as dots
   geom_line(aes(x = date, y = n_new), color = "#999999") + # plot observations as dots + lines
-  labs(x = "Notification Date", y = "Number of confirmed cases") + # x- and y-labels
-  ggtitle(country_name) + # plot title
+  labs(x = "Reporting date", y = "Daily confirmed cases") + # x- and y-labels
   scale_x_date(breaks = seq(from = first(Y$date), to = last(Y$date), by = 21), date_labels = "%d/%b/%Y") + # specifies x-scale
   theme_bw() + # white backgroud
   theme(axis.text.x = element_text(angle = 90, size = size_plot), # optional settings for x-axis
@@ -101,10 +98,8 @@ ggplot(data = Y) +
         axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
         axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
-        plot.title = element_text(hjust = 0.5, size = size_plot), # optional settings for title
         strip.text = element_text(size = size_plot)) +
   geom_line(data = df, mapping = aes(x = date, y = median), color = "black") # adds fitted mean curve
-
 
 
 
