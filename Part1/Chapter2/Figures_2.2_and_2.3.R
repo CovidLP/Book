@@ -29,6 +29,18 @@ linetype_plot <- 1.2
 size_line_plot <- 1.2
 size_plot <- 15
 vjust_plot <- 1.8
+theme_plot <- theme_bw(base_size = 20) +
+  theme(axis.text.x = element_text(angle = 0, size = size_plot), # optional settings for x-axis
+        axis.text.y = element_text(size = size_plot), # optional settings for y-axis
+        axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
+        axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
+        legend.key.size = unit(0.5, "cm"),
+        legend.position = c(0.2, 0.7),
+        legend.text = element_text(size = size_plot),
+        legend.title = element_blank(),
+        plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
+        plot.title = element_text(hjust = 0.5, size = size_plot),
+        strip.text = element_text(size = size_plot))  # optional settings for title) 
 ###-----------------------------
 
 ### R system in English
@@ -75,19 +87,8 @@ dadosBR.ag %>%
   scale_linetype_manual(values = c("dashed", "solid") )+
   scale_size_manual(values = c(1, 1.5)) +
   scale_x_date(date_breaks = "months", date_labels = "%b") + 
-  theme_bw(base_size = 20) +
-  theme(axis.text.x = element_text(angle = 0, size = size_plot), # optional settings for x-axis
-        axis.text.y = element_text(size = size_plot), # optional settings for y-axis
-        axis.title.x = element_text(size = size_plot, vjust = -vjust_plot), # optional settings for x-axis
-        axis.title.y = element_text(size = size_plot, vjust = vjust_plot), # optional settings for y-axis
-        legend.key.size = unit(0.5, "cm"),
-        legend.position = c(0.2, 0.7),
-        legend.text = element_text(size = size_plot),
-        legend.title = element_blank(),
-        plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
-        plot.title = element_text(hjust = 0.5, size = size_plot),
-        strip.text = element_text(size = size_plot)) + # optional settings for title) 
-  ggtitle("New hospitalized Covid-19 cases by date in Brazil")
+  theme_plot + 
+  ggtitle("New hospitalized COVID-19 cases by date in Brazil")
 
 
 ###------------------------------###------------------------------###------------------------------###
@@ -112,7 +113,7 @@ aux$`Release date`<- format(x = as.Date(aux$`Release date`), "%d/%b/%Y")
 
 aux %>% 
   ggplot(aes(x = Date, y = Cases, linetype = `Release date`)) +
-  geom_line(show.legend = T) + 
+  geom_line(show.legend = TRUE) + 
   ylab("Number of cases") + 
   scale_x_date(date_breaks = "months", date_labels = "%b") +
   theme_bw(base_size = 20) +
@@ -126,7 +127,7 @@ aux %>%
         legend.title = element_text(size = size_plot),
         plot.margin = unit(x = c(1, 1, 1, 0.5), units = "cm"), # optional settings for margins
         plot.title = element_text(hjust = 0.5, size = size_plot)) +
-  ggtitle("New hospitalized Covid-19 cases in Brazil") 
+  ggtitle("New hospitalized COVID-19 cases in Brazil") 
 
 
 ###---------------###
