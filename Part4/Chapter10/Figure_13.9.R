@@ -2,10 +2,10 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 10: Investigating inference results                 ###
-###   Section 10.4  Practical situation                           ###
-###   Subsection 10.4.1 Overall comparison                         ###
-###   Figure 10.2                                                 ###
+###   Chapter 13: Investigating inference results                 ###
+###   Section 13.4  Practical situation                           ###
+###   Subsection 13.4.1 Overall comparison                        ###
+###   Figure 13.2                                                 ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
@@ -28,8 +28,8 @@ set.seed(123456789)
 
 ###-----------------------------
 ### Setting directories
-data_directory<- "Part4/Chapter10/data/"
-results_directory<- "Part4/Chapter10/results/"
+data_directory<- "Part5/Chapter13/data/"
+results_directory<- "Part5/Chapter13/results/"
 ###-----------------------------
 
 ###-----------------------------
@@ -42,7 +42,7 @@ vjust_plot<- 1.8
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###-----------------###
-###   FIGURE 10.2   ###
+###   FIGURE 13.2   ###
 ###-----------------###
 
 country_name<- "US"
