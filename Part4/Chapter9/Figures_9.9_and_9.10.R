@@ -2,9 +2,9 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 9: Daily evaluation of the updated data             ###
-###   Section 9.4: Seasonality                                    ###
-###   Figures 9.9 and 9.10                                        ###
+###   Chapter 12: Daily evaluation of the updated data            ###
+###   Section 12.4: Seasonality                                   ###
+###   Figures 12.9 and 12.10                                      ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
@@ -25,7 +25,7 @@ set.seed(123456789)
 
 ###-----------------------------
 ### Setting directories
-data_directory<- "Part4/Chapter9/data/"
+data_directory<- "Part5/Chapter12/data/"
 ###-----------------------------
 
 ###-----------------------------
@@ -37,7 +37,7 @@ vjust_plot<- 1.8
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###---------------------------------------###
-###   FIGURE 9.9 (a) and FIGURE 9.9 (b)   ###
+###   FIGURE 12.9 (a) and FIGURE 12.9 (b)   ###
 ###---------------------------------------###
 
 country_name<- "Brazil"
@@ -82,7 +82,7 @@ ggplot(data = Y) +
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###-----------------------------------------###
-###   FIGURE 9.10 (a) and FIGURE 9.10 (b)   ###
+###   FIGURE 12.10 (a) and FIGURE 12.10 (b) ###
 ###-----------------------------------------###
 
 country_name<- "Costa Rica"
@@ -126,7 +126,7 @@ ggplot(data = Y) +
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###-----------------------------------------###
-###   FIGURE 9.10 (c) and FIGURE 9.10 (d)   ###
+###   FIGURE 12.10 (c) and FIGURE 12.10 (d) ###
 ###-----------------------------------------###
 
 country_name<- "Paraguay"
