@@ -2,10 +2,10 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 10: Investigating inference results                 ###
-###   Section                            ###
-###   Subsection 
-###   Figure 
+###   Chapter 13: Investigating inference results                 ###
+###   Section                                                     ###
+###   Subsection                                                  ###
+###   Figure                                                      ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
@@ -27,8 +27,8 @@ set.seed(123456789)
 
 ###-----------------------------
 ### Setting directories
-data_directory <- "Part4/Chapter10/data/"
-results_directory <- "Part4/Chapter10/results/"
+data_directory <- "Part5/Chapter13/data/"
+results_directory <- "Part5/Chapter13/results/"
 ###-----------------------------
 
 ###-----------------------------
@@ -50,7 +50,7 @@ theme_plot <-   theme_bw() + # white backgroud
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###------------------------------###
-###   FIGURE 
+###   FIGURE                     ###
 ###------------------------------###
 
 state_name <- "MG"
@@ -94,7 +94,7 @@ ggplot(data = df_ggplot) +
 
 
 ###------------------------------###
-###   FIGURE 
+###   FIGURE                     ###
 ###------------------------------###
 
 state_name <- "SP"
