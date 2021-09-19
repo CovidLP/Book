@@ -2,10 +2,10 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 10: Investigating inference results                 ###
-###   Section 10.4: Practical situation                           ###
-###   Subsection 10.4.2: Seasonality                              ###
-###   Figure 10.6                                                 ###
+###   Chapter 13: Investigating inference results                 ###
+###   Section 13.4: Practical situation                           ###
+###   Subsection 13.4.2: Seasonality                              ###
+###   Figure 13.6                                                 ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
@@ -27,8 +27,8 @@ set.seed(123456789)
 
 ###-----------------------------
 ### Setting directories
-data_directory<- "Part4/Chapter10/data/"
-results_directory<- "Part4/Chapter10/results/"
+data_directory<- "Part5/Chapter13/data/"
+results_directory<- "Part5/Chapter13/results/"
 ###-----------------------------
 
 ###-----------------------------
@@ -40,7 +40,7 @@ vjust_plot<- 1.8
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###------------------------------###
-###   FIGURE 10.6 (a)           ###
+###   FIGURE 13.6 (a)            ###
 ###------------------------------###
 
 state_name<- "MG" 
@@ -101,7 +101,7 @@ ggplot(data = df_ggplot) +
 
 
 ###------------------------------###
-###   FIGURE 10.6 (b)           ###
+###   FIGURE 13.6 (b)            ###
 ###------------------------------###
 
 state_name<- "SP" 
