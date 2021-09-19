@@ -2,9 +2,9 @@
 ###   Building a Platform for Data-Driven Pandemic Prediction:    ###
 ###   From Data Modelling to Visualization - the CovidLP Project  ###
 ###                                                               ###
-###   Chapter 9: Daily evaluation of the updated data             ###
-###   Section 9.4: Seasonality                                    ###
-###   Figure 9.8                                                  ###
+###   Chapter 12: Daily evaluation of the updated data            ###
+###   Section 12.4: Seasonality                                   ###
+###   Figure 12.8                                                 ###
 ###                                                               ###
 ###   Author: the CovidLP Team                                    ###
 ###---------------------------------------------------------------###
@@ -25,7 +25,7 @@ set.seed(123456789)
 
 ###-----------------------------
 ### Setting directories
-data_directory<- "Part4/Chapter9/data/"
+data_directory<- "Part5/Chapter12/data/"
 ###-----------------------------
 
 ###-----------------------------
@@ -37,7 +37,7 @@ vjust_plot<- 1.8
 ###-----------------------------###-----------------------------###-----------------------------###
 
 ###---------------------------------------###
-###   FIGURE 9.8 (a) and FIGURE 9.8 (b)   ###
+###   FIGURE 12.8 (a) and FIGURE 12.8 (b) ###
 ###---------------------------------------###
 
 country_name<- "Brazil"
@@ -81,7 +81,7 @@ ggplot(data = Y) +
         strip.text = element_text(size = size_plot))
 
 ###---------------------------------------###
-###   FIGURE 9.8 (c) and FIGURE 9.8 (d)   ###
+###   FIGURE 12.8 (c) and FIGURE 12.8 (d) ###
 ###---------------------------------------###
 
 country_name<- "Costa Rica"
@@ -125,7 +125,7 @@ ggplot(data = Y) +
         strip.text = element_text(size = size_plot))
 
 ###---------------------------------------###
-###   FIGURE 9.8 (e) and FIGURE 9.8 (f)   ###
+###   FIGURE 12.8 (e) and FIGURE 12.8 (f) ###
 ###---------------------------------------###
 
 country_name<- "Paraguay"
